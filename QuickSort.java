@@ -2,43 +2,42 @@ import java.util.Arrays;
 
 public class QuickSort {
     public static void main(String[] args) {
-        int[] arr = {2,1,3,6,8,5,7,4};
-
-        /*sort(0,arr.length-1,arr);
-        System.out.println(Arrays.toString(arr));*/
-        System.out.println(partition(0,arr.length-1,arr));
-        System.out.println(Arrays.toString(arr));
-
-
+        int[] a = {9, 0,3,-3, 5, 2, 6, 6, 8, -6, 1, 3,-6};
+        quicksort(a, 0, a.length - 1);
+        System.out.println(Arrays.toString(a));
     }
 
-    private static void sort(int l , int h , int[] arr) {
-        if (l<h) {
-
-            int pInd = partition(l, h, arr);
-            sort(l, pInd - 1, arr);
-            sort(pInd + 1, h, arr);
+    private static void quicksort(int[] a, int l, int h) {
+        if (l < h) {
+            int pivotIndex = partition(a, l, h);
+            quicksort(a, l, pivotIndex - 1);
+            quicksort(a, pivotIndex + 1, h);
         }
     }
 
-    private static int partition(int l , int h , int[] arr) {
-        int pivot = arr[h];
-        int j = l;
-        for (int i = l; i < h ; i++) {
-            if (arr[i]<pivot)
-            {
-                int temp = arr[i];
-                arr[i]=arr[j];
-                arr[j]=temp;
-                j++;
+    private static int partition(int[] a, int l, int h) {
+        int pivot = a[l];
+        int i = l;
+        int j = h;
+        while (i < j) {
+            while (i < h && a[i] <= pivot) {
+                i++;
             }
-
+            while (j > l && a[j] > pivot) {
+                j--;
+            }
+            if (i < j) {
+                swap(a, i, j);
+            }
         }
-        int temp = arr[j];
-        arr[j]=pivot;
-        arr[h]=temp;
-
+        swap(a, l, j);
         return j;
 
+    }
+
+    private static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
     }
 }

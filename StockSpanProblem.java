@@ -1,28 +1,50 @@
 import java.util.Arrays;
 import java.util.Stack;
 
-// STACK Question
-// STACK is applied to lower time complexity, when inner loop is dependent on outer loop in brute force(higher time complexity) solution
-public class StockSpanProblem {
+public class StockSpanProblem //more time and space complexity than method 2
+{
     public static void main(String[] args) {
-        int[] stockPrices = {5, 1, 2, 3, 0, 0, 1, 2, 4, 6, 2, 1, 1, 3, 2, 4};
-        int[] result = findConsecutiveLessThanOrEqualsToPrices(stockPrices);
+        int[] arr = {60,40,20,30};
+        int[] result = find(arr);
         System.out.println(Arrays.toString(result));
-
     }
 
-    private static int[] findConsecutiveLessThanOrEqualsToPrices(int[] stockPrices) {
-        int[] countArray = new int[stockPrices.length];
+    private static int[] find(int[] arr) {
+        int[] result = new int[arr.length];
+        Arrays.fill(result,1);
+        int count = 0;
+        int lastPopped = 0;
+        int currPopped = 0;
+        int i = 0;
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < stockPrices.length; i++) {
-            while (!stack.isEmpty() && stockPrices[stack.peek()] <= stockPrices[i])
-                stack.pop();
+        while (i<arr.length)
+        {
             if (stack.isEmpty())
-                countArray[i] = 1;
+            {
+                stack.push(arr[i]);
+                result[i]+=(count+lastPopped);
+                count=0;
+                lastPopped=currPopped;
+                i++;
+            }
+
+            else if (stack.peek()>arr[i])
+            {
+                stack.push(arr[i]);
+                if (count != 0) {
+                    result[i]+=(count+lastPopped);
+                    count = 0;
+                    lastPopped = currPopped;
+                }
+                i++;
+            }
             else
-                countArray[i] = i - stack.peek();
-            stack.push(i);
+            {
+                stack.pop();
+                count++;
+                currPopped++;
+            }
         }
-        return countArray;
+        return result;
     }
 }

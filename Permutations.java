@@ -1,31 +1,35 @@
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Permutations {
     public static void main(String[] args) {
-        String s = "ABC";
+        String s = "123";
         permute(s);
     }
 
     private static void permute(String s) {
-        permute(0, s.toCharArray());
+        permute(0,s.toCharArray());
     }
 
-    private static void permute(int i, char[] ch) {
-        if (i == ch.length) {
-            System.out.println(Arrays.toString(ch));
+    private static void permute(int start ,char[] c) {
+        if (start==c.length)
+        {
+            System.out.println(Arrays.toString(c));
             return;
+
         }
-        for (int j = i; j < ch.length; j++) {
-            swap(i, j, ch);
-            permute(i + 1, ch);
-            swap(i, j, ch);
+
+        for (int i = start; i < c.length; i++) {
+            swap(start,i,c);
+            permute(start+1,c);
+            swap(start,i,c);
         }
+
     }
 
-    private static void swap(int i, int j, char[] ch) {
-        char temp = ch[i];
-        ch[i] = ch[j];
-        ch[j] = temp;
+    private static void swap(int start, int i, char[] c) {
+        char temp = c[start];
+        c[start]=c[i];
+        c[i]=temp;
     }
 }

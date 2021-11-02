@@ -1,30 +1,22 @@
-import java.util.Arrays;
-
 public class StringReverse {
     public static void main(String[] args) {
-        String original = "aadesh";
-        reverse(original);
+        String s = "aadesh";
+        System.out.println(reverseString(s));
     }
 
-    private static void reverse(String original) {
-    reverse(0,original.length()-1,original.toCharArray());
+    private static String reverseString(String s) {
+        char[] string = s.toCharArray();
+        reverseString(0,string.length-1,string);
+        return new String(string);
     }
 
-    private static void reverse(int l , int h , char[] ch) {
-
-
-        if (l>h)
+    private static void reverseString(int i, int j, char[] string) {
+        if(i<j)
         {
-            System.out.println(Arrays.toString(ch));
-            return;
+            char temp = string[i];
+            string[i]=string[j];
+            string[j]=temp;
+            reverseString(i+1,j-1,string);
         }
-
-        char temp = ch[l];
-        ch[l]=ch[h];
-        ch[h]=temp;
-        reverse(l+1,h-1,ch);
-
-
     }
-
 }

@@ -1,100 +1,50 @@
 import java.util.*;
-
-// Data structure to store graph edges
-class Edge
-{
-    int source, dest;
-
-    public Edge(int source, int dest) {
-        this.source = source;
-        this.dest = dest;
+public class Main {
+    public static void main(String[] args) {
+        String str1 = "Aadesh Srivastava";
+        String str2 = "Vidushi Srivastava";
+        System.out.println(str1.length());
+        System.out.println(str1.charAt(2));
+        System.out.println(str1.codePointAt(0)); //return unicode of character at that index
+        System.out.println(str1.codePointBefore(3)); //return unicode of character before that index
+        System.out.println(str1.codePointCount(0, 1));
+        System.out.println(str1.contentEquals(str2)); //returns true or false, used to compare with string,stringBuffer and stringBuilder unlike .equals()
+        System.out.println(str1.compareTo(str2)); //returns lexicographic difference
+        System.out.println(str1.compareToIgnoreCase(str2));
+        System.out.println(str1.concat(str2));
+        char[] charArray = {'a', 'a', 'd', 'e', 's', 'h'};
+        String str3 = String.copyValueOf(charArray); //creates the copy of string
+        System.out.println(str3);
+        System.out.println(str1.endsWith("va")); //returns true or false
+        System.out.println(str1.equals(str2)); //returns true or false
+        System.out.println(str1.equalsIgnoreCase(str2));
+        String str4 = String.format("name is %s", str1); //similar to System.out.printf() but returns a string
+        System.out.println(str4);
+        String str = "Java";
+        byte[] byteArray = str.getBytes();
+        System.out.println(Arrays.toString(byteArray)); //o/p => [74, 97, 118, 97]
+        String str5 = "Welcome! to GeeksforGeeks";
+        char[] destArray = new char[5];
+        str5.getChars(2, 6, destArray, 1); //getChars(int str5StartIndex,int str5EndIndex, char[] destArray, int destStartIndex)
+        System.out.println(destArray);
+        System.out.println(str1.hashCode()); //returns hashcode of string
+        System.out.println(str1.indexOf("ad")); //returns first occurrence index of given string in str1 else -1
+        System.out.println(str1.indexOf("ad", 2)); //start searching from index 2
+        System.out.println(str1.lastIndexOf("va"));
+        System.out.println(str1.isEmpty());
+        //stringName.matches() ==>regex method to match strings
+        System.out.println(str1.replace("Aadesh", "Vidushi")); //returns new string with replaced part
+        //.replaceFirst(),.replaceAll() ==>regex method
+        String[] arr = str1.split(" "); //splits string
+        System.out.println(Arrays.toString(arr));
+        System.out.println(str1.substring(0, 11));
+        System.out.println(str1.toCharArray());
+        //.trim() ==>removes left and right whitespaces
+        //.toLowerCase()
+        //.toUpperCase()
+        //String.valueOf()
+        //learn formatting in java
     }
 }
 
-// Class to represent a graph object
-class Graph
-{
-    // A List of Lists to represent an adjacency list
-    List<List<Integer>> adjList = null;
 
-    // Constructor
-    Graph(List<Edge> edges, int N) {
-        adjList = new ArrayList<>(N);
-
-        for (int i = 0; i < N; i++) {
-            adjList.add(i, new ArrayList<>());
-        }
-
-        // add edges to the undirected graph
-        for (Edge edge: edges)
-        {
-            int src = edge.source;
-            int dest = edge.dest;
-
-            adjList.get(src).add(dest);
-            adjList.get(dest).add(src);
-        }
-    }
-}
-
-class Main
-{
-    // Function to perform DFS Traversal
-    public static boolean DFS(Graph graph, int v,
-                              boolean[] discovered, int parent)
-    {
-        // mark current node as discovered
-        discovered[v] = true;
-
-        // do for every edge (v -> w)
-        for (int w : graph.adjList.get(v))
-        {
-            // w is not discovered
-            if (!discovered[w])
-            {
-                if (DFS(graph, w, discovered, v))
-                    return true;
-            }
-
-            // w is discovered and w is not a parent
-            else if (w != parent)
-            {
-                // we found a back-edge (cycle)
-                return true;
-            }
-        }
-
-        // No back-edges found in the graph
-        return false;
-    }
-
-    // Check if an undirected graph contains cycle or not
-    public static void main(String[] args)
-    {
-        // List of graph edges as per above diagram
-        List<Edge> edges = Arrays.asList(
-                new Edge(1, 2), new Edge(2, 3),
-                new Edge(3, 4), new Edge(4, 7),
-                new Edge(7, 8), new Edge(4, 6),
-                new Edge(6, 5), new Edge(5, 9),
-                new Edge(6, 10), new Edge(10, 11),
-                new Edge(11, 12), new Edge(11, 13)
-                // edge (11->12) introduces a cycle in the graph
-        );
-
-        // Set number of vertices in the graph
-        final int N = 13;
-
-        // create a graph from edges
-        Graph graph = new Graph(edges, N);
-
-        // stores vertex is discovered or not
-        boolean[] discovered = new boolean[N];
-
-        // Do DFS traversal from first vertex
-        if (DFS(graph, 1, discovered, -1))
-            System.out.println("Graph contains cycle");
-        else
-            System.out.println("Graph doesn't contain any cycle");
-    }
-}
