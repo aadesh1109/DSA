@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class _2_PartitionProblem {
     public static void main(String[] args) {
@@ -15,20 +14,32 @@ public class _2_PartitionProblem {
         if (arr.length < 2)
             return false;
         int sum = Arrays.stream(arr).sum();
-        return (sum % 2 == 0) && partition(0, arr, sum / 2,sum/2,new HashMap<>());
+        return (sum % 2 == 0) && partition(0, arr, sum / 2);
 
     }
-    private static boolean partition(int i, int[] arr, int s1, int s2, HashMap<String,Boolean> map) { //TOP-DOWN DP
-        if (s1 < 0 || s2 < 0)
+
+    private static boolean partition(int i, int[] arr, int s1) {
+
+        if (s1 < 0)
             return false;
 
+        if (s1 == 0)
+            return true;
+
         if (i == arr.length)
-            return (s1 == 0 && s2 == 0);
+            return false;
 
-        String key = i+"|"+s1+"|"+s2;
-        if (!map.containsKey(key))
-            map.put(key,partition(i + 1, arr, s1 - arr[i], s2,map) || partition(i + 1, arr, s1, s2 - arr[i],map));
 
-        return map.get(key);
+        return partition(i + 1, arr, s1 - arr[i]) || partition(i + 1, arr, s1);
     }
+
+//    private static boolean partition(int i, int[] arr, int s1, int s2) {
+//        if (s1 < 0 || s2 < 0)
+//            return false;
+//
+//        if (i == arr.length)
+//            return (s1 == 0 && s2 == 0);
+//
+//        return partition(i + 1, arr, s1 - arr[i], s2) || partition(i + 1, arr, s1, s2 - arr[i]);
+//    }
 }

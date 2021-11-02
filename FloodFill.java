@@ -1,0 +1,45 @@
+import java.util.Arrays;
+
+public class FloodFill {
+    public static void main(String[] args) {
+        int[][] image = {{0,0,0},{0,1,1}};
+        for (int[] arr : image) {
+            System.out.println(Arrays.toString(arr));
+        }
+        System.out.println();
+        int[][] x  = floodFill(image, 1, 1, 1);
+        for (int[] arr : image) {
+            System.out.println(Arrays.toString(arr));
+        }
+
+    }
+
+    public static int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        int[] rowMove = {0, 1, 0, -1};
+        int[] colMove = {1, 0, -1, 0};
+        floodFill(image, rowMove, colMove, sr, sc, newColor);
+        return image;
+
+
+    }
+
+    public static void floodFill(int[][] image, int[] rowMove, int[] colMove, int sr, int sc, int newColor) {
+        int color = image[sr][sc];
+        image[sr][sc] = newColor;
+
+        for (int i = 0; i < rowMove.length; i++) {
+            if (isSafe(sr + rowMove[i], sc + colMove[i], image) && isValid(sr + rowMove[i], sc + colMove[i], image, color,newColor))
+                floodFill(image, rowMove, colMove, sr + rowMove[i], sc + colMove[i], newColor);
+        }
+    }
+
+    public static boolean isSafe(int row, int col, int[][] image) {
+        return row < image.length && col < image[0].length && row > -1 && col > -1;
+    }
+
+    public static boolean isValid(int row, int col, int[][] image, int color, int newColor) {
+        return image[row][col] == color && image[row][col] != newColor;
+    }
+
+
+}
